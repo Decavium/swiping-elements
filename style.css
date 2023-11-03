@@ -1,0 +1,148 @@
+:root {
+    --padding: 2.5rem;
+    --borderRadius: 2rem;
+    --skeletonBorderRadius: 1rem;
+
+    --opacityAnimated: 1;
+
+    --fontSize: 5rem;
+    --playIconSize: 10rem;
+
+    --primaryColor: rgb(62, 62, 101);
+    --primaryColorTransparent: rgb(62, 62, 101, 0.4);
+    --primaryColorLight: rgb(178, 178, 193);
+    --secondaryColor: rgb(93, 93, 212);
+}
+
+/* scroll snap takes care of restoring scroll position */
+.swipe-container {
+    display: flex;
+    overflow: auto;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+}
+
+/* scrollbar should be hidden */
+.swipe-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* main element should always snap into view */
+.swipe-element {
+    scroll-snap-align: start;
+    font-family: sans-serif;
+    background-color: var(--primaryColorTransparent);
+    border-radius: var(--borderRadius);
+    opacity: var(--opacityAnimated);
+}
+
+.swipe-element:not(.collapsed) {
+    min-height: 70rem;
+}
+
+.swipe-element.visible {
+    animation: fadeIn 0.6s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: var(--opacityAnimated);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.swipe-element.completed {
+    animation: fadeOut 0.6s
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: var(--opacityAnimated);
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.swipe-element.collapsed>.element-content>.element-information {
+    display: none;
+}
+
+.element-content {
+    padding: var(--padding);
+}
+
+.skeleton {
+    opacity: 0.7;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton-text {
+    width: 100%;
+    height: var(--fontSize);
+    margin-bottom: .85rem;
+    border-radius: var(--skeletonBorderRadius);
+}
+
+/* shorten the first line of text */
+.skeleton-text.title {
+    width: 70%;
+}
+
+/* shorten the last line of text */
+.skeleton-text:last-child {
+    margin-bottom: 0;
+    width: 80%;
+}
+
+.skeleton-video {
+    height: 30rem;
+    border-radius: var(--skeletonBorderRadius);
+    margin: var(--padding);
+    /* center child vertically and horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: var(--primaryColor);
+    }
+
+    100% {
+        background-color: var(--primaryColorTransparent);
+    }
+}
+
+/* actions and element should be 100% wide */
+.action,
+.swipe-element {
+    min-width: 100%;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+}
+
+/* should remain sticky */
+.completed-message {
+    position: sticky;
+    left: var(--padding);
+    right: var(--padding);
+}
+
+.material-symbols-outlined.check-circle {
+    font-size: var(--fontSize);
+    color: var(--secondaryColor)
+}
+
+.material-symbols-outlined.play-arrow {
+    font-size: var(--playIconSize);
+    color: var(--primaryColorLight);
+}
