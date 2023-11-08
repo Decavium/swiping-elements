@@ -20,6 +20,8 @@
     overflow: auto;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
+
+    
 }
 
 /* scrollbar should be hidden */
@@ -34,10 +36,13 @@
     background-color: var(--primaryColorTransparent);
     border-radius: var(--borderRadius);
     opacity: var(--opacityAnimated);
+
+    overflow: hidden;
 }
 
 .swipe-element:not(.collapsed) {
-    min-height: 70rem;
+    flex-basis: clamp(15rem, 40vh, 20rem);
+    flex-grow: 1;
 }
 
 .swipe-element.visible {
@@ -68,8 +73,15 @@
     }
 }
 
+/* TODO */
+.element-information {
+    transition: transform 500ms 500ms, opacity 500ms 500ms;
+}
+
 .swipe-element.collapsed>.element-content>.element-information {
-    display: none;
+    /* display: none; */
+    transform: translateY(2rem);
+    opacity: 0;
 }
 
 .element-content {
