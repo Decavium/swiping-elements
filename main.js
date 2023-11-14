@@ -54,15 +54,15 @@ function removeElement(container, element) {
     );
 }
 
-function onLongPress(element, callback) {
+function jiggleOnLongPress(element, callback) {
     let timer;
     // setup on the start of the touch
     element.addEventListener('touchstart', () => {
         timer = setTimeout(() => {
             timer = null;
-            // if it lasts a 1.5 seconds make it jiggle
+            // if it lasts a 1 second make it jiggle
             callback();
-        }, 1500);
+        }, 1000);
     });
 
     function cancel() {
@@ -73,7 +73,7 @@ function onLongPress(element, callback) {
     element.addEventListener('touchmove', cancel);
 }
 
-onLongPress(swipeElement, () => {
+jiggleOnLongPress(swipeElement, () => {
     // jiggling commences
     swipeElement.classList.toggle("jiggle");
     swipeElement.classList.remove("expanded");

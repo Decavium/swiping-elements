@@ -1,27 +1,42 @@
 :root {
-    --padding: 2.5rem;
-    --borderRadius: 2rem;
-    --fontSize: 5rem;
+    --padding: 3rem;
+    --borderRadius: 3rem;
+    --fontSize: 6rem;
+    --paddingTopAndBottom: 0.5rem;
 
-    --playIconSize: 10rem;
+    --playIconSize: 14rem;
 
-    --skeletonBorderRadius: 1rem;
+    --skeletonBorderRadius: 1.2rem;
     --skeletonOpacity: 0.7;
 
+    /* do not touch this variable as it is changed by the code */
     --opacityAnimated: 1;
 
-    --primaryColor: rgb(62, 62, 101);
-    --primaryColorTransparent: rgb(62, 62, 101, 0.4);
-    --primaryColorLight: rgb(178, 178, 193);
-    --secondaryColor: rgb(93, 93, 212);
+    --primaryColor: rgb(74, 78, 105);
+    --primaryColorTransparent: rgb(74, 78, 105, 0.4);
+    --primaryColorLight: rgb(74, 78, 105);
+    --secondaryColorLight: rgb(242, 233, 228);
+    --secondaryColor: rgb(201, 173, 167);
+}
+
+body {
+    margin: 0;
+    background: var(--secondaryColor);
+    background: linear-gradient(15deg, white 0%, var(--secondaryColorLight) 100%);
 }
 
 /* scroll snap takes care of restoring scroll position */
 .swipe-container {
+    /* margin for demo only
+    margin: 2rem; */
     display: flex;
     overflow: auto;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
+
+    /* space for the jiggle animation so it is not cut off */
+    padding-top: var(--paddingTopAndBottom);
+    padding-bottom: var(--paddingTopAndBottom);
 }
 
 /* scrollbar should be hidden */
@@ -40,6 +55,8 @@
     overflow: hidden;
 }
 
+/* as the fade out is controlled by a function,
+the fade in is done via an animation */
 .swipe-element.visible {
     animation: fadeIn 0.6s;
 }
@@ -112,20 +129,24 @@
 .element-information {
     overflow: visible;
     margin-top: -120%;
-    transition: 400ms ease-out;
+    transition: 400ms;
+    transition-timing-function: cubic-bezier(.63, .3, .83, .27);
+    transition-delay: 750ms;
 }
 
 /* returns the margin and the content comes into view */
 .swipe-element.expanded>.element-content>.element-information {
     margin-top: 0;
+    transition-delay: 0ms;
 }
 
 .element-information>div {
+    transition: transform 400ms 400ms, opacity 400ms 400ms !important;
     transform: translateY(2rem);
     opacity: 0;
 }
 
-/* fade in of content */
+/* fade in for content */
 .swipe-element.expanded>.element-content>.element-information>div {
     transition: transform 400ms 400ms, opacity 400ms 400ms !important;
     transform: translateY(0);
@@ -201,7 +222,7 @@
 
 .material-symbols-outlined.check-circle {
     font-size: var(--fontSize);
-    color: var(--secondaryColor)
+    color: var(--secondaryColor);
 }
 
 .material-symbols-outlined.play-arrow {
@@ -212,4 +233,14 @@
 /* prevent scolling on jiggle */
 .disable-scroll {
     overflow-x: hidden;
+}
+
+/* icons shouldn't be interactable */
+.prevent-select {
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 }
