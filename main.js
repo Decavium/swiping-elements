@@ -1,65 +1,93 @@
-const container = document.querySelector('.swipe-container');
+const swipeContainer = document.querySelector('.swipe-container');
 const swipeElement = document.querySelector('.swipe-element');
 
-function handleSwipe() {
+setupEventListeners(swipeContainer, swipeElement);
+onLongPress(swipeElement, () => jiggleElement(swipeContainer, swipeElement));
+
+function setupEventListeners(container, element) {
+
+    element.addEventListener("mouseup", () => handleSwipe(container, element));
+    element.addEventListener("mousemove", () => handleElementOpacityOnSwipe(container, element));
+
+}
+
+function handleSwipe(container, element) {
+
     // don't interrupt the jiggle!!!
-    if (swipeElement.classList.contains("jiggle")) {
+    if (element.classList.contains("jiggle")) {
         return;
     }
+
     // define the minimum distance to trigger the action
-    const minDistance = 80;
+    const minDistance = 10;
+
     // get the distance the user swiped
     const swipeDistance = container.scrollLeft - container.clientWidth;
+
     if (swipeDistance < minDistance * -1) {
+
         // remove the element when the user moves the element far enough
-        removeElement(container, swipeElement);
+        removeElement(container, element);
     } else if (swipeDistance > minDistance) {
+
         // fade in if only swiped left
-        fadeIn(swipeElement);
+        fadeIn(element);
     } else {
+
         // expand or collapse the element
-        swipeElement.classList.toggle("expanded");
+        element.classList.toggle("expanded");
     }
 }
 
-function scrollOpacity() {
+function handleElementOpacityOnSwipe(container, element) {
+
+    const containerWidth = container.clientWidth;
+
     // get the distance the user swiped and make it positive
-    const swipeDistance = Math.abs(container.scrollLeft - container.clientWidth);
+    const swipeDistance = Math.abs(container.scrollLeft - containerWidth);
+
     // calculate opacity on distance swiped
-    let opacity = 1 - (swipeDistance / container.clientWidth);
+    let opacity = 1 - (swipeDistance / containerWidth);
+
     // assign opacity
     if (opacity >= 0) {
-        swipeElement.classList.remove("visible");
+        element.classList.remove("visible");
         document.documentElement.style.setProperty('--opacityAnimated', opacity);
     }
 }
 
 function fadeIn(element) {
+
+    // visible is "animation: fadeIn 0.6s;"
     element.classList.add("visible");
     element.addEventListener("animationend",
         () => {
-            document.documentElement.style.setProperty('--opacityAnimated', 1)
+            // set to 1 as it reverts to its original opactiy before the animation happened
+            document.documentElement.style.setProperty('--opacityAnimated', 1);
 
         }
     );
 }
 
 function removeElement(container, element) {
+
     // class used to trigger animation
     element.classList.add("completed");
     element.addEventListener("animationend",
         () => {
-            container.remove()
+            container.remove();
         }
     );
 }
 
 function onLongPress(element, callback) {
     let timer;
+
     // setup on the start of the touch
     element.addEventListener('mousedown', () => {
         timer = setTimeout(() => {
             timer = null;
+
             // if it lasts a 1 second make it jiggle
             callback();
         }, 1000);
@@ -73,9 +101,10 @@ function onLongPress(element, callback) {
     element.addEventListener('mousemove', cancel);
 }
 
-onLongPress(swipeElement, () => {
+function jiggleElement(container, element) {
+
     // jiggling commences
     container.classList.toggle("disable-scroll");
-    swipeElement.classList.remove("expanded");
-    swipeElement.classList.toggle("jiggle");
-});
+    element.classList.remove("expanded");
+    element.classList.toggle("jiggle");
+}

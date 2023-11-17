@@ -9,7 +9,7 @@
     --skeletonBorderRadius: 0.4rem;
     --skeletonOpacity: 0.2;
 
-    /* do not touch this variable as it is changed by the code */
+    /* do not touch - calculated variable */
     --opacityAnimated: 1;
 
     --primaryColor: rgb(74, 78, 105);
@@ -21,16 +21,24 @@
 
 body {
     margin: 0;
-    background: var(--secondaryColor);
-    background: linear-gradient(15deg, white 0%, var(--secondaryColorLight) 100%);
+    background: linear-gradient(var(--secondaryColorLight), var(--secondaryColor));
+
+    /* centre */
+    position: relative;
 }
 
 /*  Intended to be used on an iPhone SE
     375px × 667px viewport
 */
-.demo-wrapper {
-    max-width: 375px;
-    max-height: 667px;
+.demo-viewport-wrapper {
+    width: 375px;
+    height: 667px;
+
+    /* centre */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* scroll snap takes care of restoring scroll position */
