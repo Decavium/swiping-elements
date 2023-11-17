@@ -2,7 +2,7 @@ const swipeContainer = document.querySelector('.swipe-container');
 const swipeElement = document.querySelector('.swipe-element');
 
 setupEventListeners(swipeContainer, swipeElement);
-onLongPress(swipeElement, () => jiggleElement(swipeContainer, swipeElement));
+onLongPressOfElement(swipeElement, () => jiggleElement(swipeContainer, swipeElement));
 
 function setupEventListeners(container, element) {
 
@@ -31,7 +31,7 @@ function handleSwipe(container, element) {
     } else if (swipeDistance > minDistance) {
 
         // fade in if only swiped left
-        fadeIn(element);
+        fadeInElement(element);
     } else {
 
         // expand or collapse the element
@@ -56,7 +56,7 @@ function handleElementOpacityOnSwipe(container, element) {
     }
 }
 
-function fadeIn(element) {
+function fadeInElement(element) {
 
     // visible is "animation: fadeIn 0.6s;"
     element.classList.add("visible");
@@ -80,7 +80,7 @@ function removeElement(container, element) {
     );
 }
 
-function onLongPress(element, callback) {
+function onLongPressOfElement(element, callback) {
     let timer;
 
     // setup on the start of the touch
