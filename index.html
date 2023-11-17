@@ -7,34 +7,36 @@
 </header>
 
 <body>
-  <!-- the container for actions and element -->
-  <div class="swipe-container" onmouseup="handleSwipe()" onmousemove="scrollOpacity()">
-    <!-- left action -->
-    <div class="action left">
-      <div class="completed-message">
-        <span class="material-symbols-outlined check-circle prevent-select">
-          check_circle
-        </span>
-      </div>
-    </div>
-    <!-- swipeable element -->
-    <div class="swipe-element">
-      <div class="element-content">
-        <div class="skeleton skeleton-text title"></div>
-        <div class="element-information">
-          <div class="skeleton skeleton-video">
-            <span class="material-symbols-outlined play-arrow prevent-select">
-              play_arrow
-            </span>
-          </div>
-          <div class="skeleton skeleton-text"></div>
-          <div class="skeleton skeleton-text"></div>
-          <div class="skeleton skeleton-text"></div>
+  <div class="demo-wrapper">
+    <!-- the container for actions and element -->
+    <div class="swipe-container" onmouseup="handleSwipe()" onmousemove="scrollOpacity()">
+      <!-- left action -->
+      <div class="action left">
+        <div class="completed-message">
+          <span class="material-symbols-outlined check-circle prevent-select">
+            check_circle
+          </span>
         </div>
       </div>
+      <!-- swipeable element -->
+      <div class="swipe-element">
+        <div class="element-content">
+          <div class="skeleton skeleton-text title"></div>
+          <div class="element-information">
+            <div class="skeleton skeleton-video">
+              <span class="material-symbols-outlined play-arrow prevent-select">
+                play_arrow
+              </span>
+            </div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text"></div>
+          </div>
+        </div>
+      </div>
+      <!-- right side for bounce back -->
+      <div class="action right"></div>
     </div>
-    <!-- right side for bounce back -->
-    <div class="action right"></div>
   </div>
 </body>
 <script src="main.js"></script>
