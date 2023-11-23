@@ -13,7 +13,7 @@
     --opacityAnimated: 1;
 
     --primaryColor: rgb(74, 78, 105);
-    --primaryColorTransparent: rgb(74, 78, 105, 0.4);
+    --primaryColorTransparent: rgb(74, 78, 105, 0.2);
     --primaryColorLight: rgb(74, 78, 105);
     --secondaryColorLight: rgb(242, 233, 228);
     --secondaryColor: rgb(201, 173, 167);
@@ -47,10 +47,13 @@ body {
     overflow: auto;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
-
+   
     /* space for the jiggle animation so it is not cut off */
     padding-top: var(--paddingTopAndBottom);
     padding-bottom: var(--paddingTopAndBottom);
+    
+    /* for the custom pointer drag */
+    touch-action: none;
 }
 
 /* scrollbar should be hidden */

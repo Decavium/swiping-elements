@@ -4,11 +4,13 @@ const swipeElement = document.querySelector('.swipe-element');
 setupEventListeners(swipeContainer, swipeElement);
 onLongPressOfElement(swipeElement, () => jiggleElement(swipeContainer, swipeElement));
 
+// TODO
+document.querySelectorAll(".swipe-container").forEach(() => { pointerScroll(swipeContainer, swipeElement) });
+
 function setupEventListeners(container, element) {
 
-    element.addEventListener("mouseup", () => handleSwipe(container, element));
-    element.addEventListener("mousemove", () => handleElementOpacityOnSwipe(container, element));
-
+    element.addEventListener("pointerup", () => handleSwipe(container, element));
+    element.addEventListener("pointermove", () => handleElementOpacityOnSwipe(container, element));
 }
 
 function handleSwipe(container, element) {
@@ -19,7 +21,7 @@ function handleSwipe(container, element) {
     }
 
     // define the minimum distance to trigger the action
-    const minDistance = 10;
+    const minDistance = 50;
 
     // get the distance the user swiped
     const swipeDistance = container.scrollLeft - container.clientWidth;
@@ -108,3 +110,43 @@ function jiggleElement(container, element) {
     element.classList.remove("expanded");
     element.classList.toggle("jiggle");
 }
+
+// TODO refactor to work for this code
+function pointerScroll(container, element) {
+    let isDrag = false;
+
+    const dragTrue = () => {
+        isDrag = true;
+    };
+
+    const dragFalse = () => {
+        isDrag = false;
+    };
+
+    const drag = (event) => {
+        if (isDrag) {
+
+            // don't interrupt the jiggle!!!
+            if (element.classList.contains("jiggle")) {
+                return;
+            }
+
+            container.scrollLeft -= event.movementX;
+        }
+    };
+
+    const resetStyle = () => {
+        element.style.cursor = "grab";
+        element.style.scrollSnapAlign = "start";
+    }
+
+    const setStyle = () => {
+        element.style.cursor = "grabbing";
+        element.style.scrollSnapAlign = "none";
+    }
+
+    container.addEventListener("pointerdown", () => { dragTrue(); setStyle(); });
+    container.addEventListener("pointerup", () => { dragFalse(); resetStyle(); });
+    element.addEventListener("pointerleave", () => { dragFalse(); resetStyle(); });
+    container.addEventListener("pointermove", drag);
+};
