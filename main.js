@@ -36,6 +36,12 @@ function handleSwipe(container, element) {
         fadeInElement(element);
     } else {
 
+        // make sure element doesn't expand after jiggling ends
+        if (element.classList.contains("jiggleFinished")){
+            element.classList.remove("jiggleFinished");
+            return;
+        }
+
         // expand or collapse the element
         element.classList.toggle("expanded");
     }
@@ -109,6 +115,9 @@ function jiggleElement(container, element) {
     container.classList.toggle("disable-scroll");
     element.classList.remove("expanded");
     element.classList.toggle("jiggle");
+
+    // awkward, but it works to prevent it from expanding
+    element.classList.add("jiggleFinished");
 }
 
 // TODO refactor to work for this code
@@ -137,7 +146,8 @@ function pointerScroll(container, element) {
 
     const resetStyle = () => {
         element.style.cursor = "grab";
-        element.style.scrollSnapAlign = "start";
+        // TODO
+        element.style.scrollSnapAlign = "none";
     }
 
     const setStyle = () => {
