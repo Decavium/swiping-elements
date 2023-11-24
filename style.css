@@ -115,6 +115,36 @@ screen the fade in is done via an animation */
     -moz-transform: rotate(-1deg);
 }
 
+.delete-button {
+    --translateDistance: calc(var(--padding) / -2);
+    --xDistance: calc(var(--paddingTopAndBottom) + var(--translateDistance));
+
+    position: absolute;
+    transform: translate(var(--translateDistance), var(--xDistance));
+
+    background-color: var(--primaryColorLight);
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    max-width: calc(var(--fontSize)/1.5);
+    max-height: calc(var(--fontSize)/1.5);
+    cursor: pointer;
+
+    /* only visible when element is jiggling */
+    visibility: hidden;
+    animation: fadeOut 0.6s;
+
+    /* center child (play icon) vertically and horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-button.visible {
+    visibility: visible;
+    animation: fadeIn 0.6s;
+}
+
 @keyframes jiggle {
     0% {
         transform: rotate(-0.7deg);
@@ -178,27 +208,6 @@ screen the fade in is done via an animation */
 .element-content {
     min-height: var(--fontSize);
     padding: var(--padding);
-}
-
-.delete-button {
-    --translateDistance: calc(var(--padding) / -2);
-    --xDistance: calc(var(--paddingTopAndBottom) + var(--translateDistance));
-
-    position: absolute;
-    transform: translate(var(--translateDistance), var(--xDistance));
-
-    background-color: var(--primaryColorLight);
-    border-radius: 50%;
-    height: 100%;
-    width: 100%;
-    max-width: calc(var(--fontSize)/1.5);
-    max-height: calc(var(--fontSize)/1.5);
-    cursor: pointer;
-
-    /* center child (play icon) vertically and horizontally */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .skeleton {

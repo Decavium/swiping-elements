@@ -1,5 +1,6 @@
 const swipeContainer = document.querySelector('.swipe-container');
 const swipeElement = document.querySelector('.swipe-element');
+const deleteButton = document.querySelector('.delete-button');
 
 document.querySelectorAll(".swipe-container").forEach(() => { handlePointer(swipeContainer, swipeElement) });
 
@@ -165,7 +166,10 @@ function jiggleElement(container, element) {
     element.classList.remove("expanded");
     element.classList.toggle("jiggle");
 
-    // awkward, but it works to prevent it from expanding
+    // 
+    deleteButton.classList.toggle("visible");
+
+    // awkward, but it works to prevent the container from expanding
     element.classList.add("jiggleFinished");
 }
 
