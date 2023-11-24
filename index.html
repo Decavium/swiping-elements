@@ -8,42 +8,43 @@
 
 <body>
   <div class="demo-viewport-wrapper">
-    <!-- the container for actions and element -->
-    <div class="swipe-container">
-      <!-- left action -->
-      <div class="action left">
-        <div class="completed-message">
-          <span class="material-symbols-outlined check-circle prevent-select">
-            check_circle
-          </span>
-        </div>
+    <div class="container">
+      <!-- TODO -->
+      <div class="delete-button">
+        <span class="material-symbols-outlined remove prevent-select">
+          remove
+        </span>
       </div>
-      <!-- swipeable element -->
-      <div class="swipe-element">
-        <div class="element-content">
-          <div class="skeleton skeleton-text title"></div>
-          <div class="element-information">
-            <div class="skeleton skeleton-video">
-              <span class="material-symbols-outlined play-arrow prevent-select">
-                play_arrow
-              </span>
-            </div>
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text"></div>
+      <!-- the container for actions and element -->
+      <div class="swipe-container">
+        <!-- left action -->
+        <div class="action left">
+          <div class="completed-message">
+            <span class="material-symbols-outlined check-circle prevent-select">
+              check_circle
+            </span>
           </div>
         </div>
+        <!-- swipeable element -->
+        <div class="swipe-element">
+          <div class="element-content">
+            <div class="skeleton skeleton-text title"></div>
+            <div class="element-information">
+              <div class="skeleton skeleton-video">
+                <span class="material-symbols-outlined play-arrow prevent-select">
+                  play_arrow
+                </span>
+              </div>
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text"></div>
+            </div>
+          </div>
+        </div>
+        <!-- right side for bounce back -->
+        <div class="action right"></div>
       </div>
-      <!-- right side for bounce back -->
-      <div class="action right"></div>
     </div>
-  </div>
-
-  <!-- TODO -->
-  <div class="delete-button">
-    <span class="material-symbols-outlined remove prevent-select">
-      remove
-    </span>
   </div>
 </body>
 <script src="main.js"></script>

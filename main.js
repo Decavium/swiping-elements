@@ -64,7 +64,7 @@ function handleSwipe(container, element) {
     }
 
     // define the minimum distance to trigger the action
-    const minDistance = convertRemToPixels(6);
+    const minDistance = convertRemToPixels(5);
 
     // get the distance the user swiped
     const swipeDistance = container.scrollLeft - container.clientWidth;

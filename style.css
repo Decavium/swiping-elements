@@ -47,11 +47,11 @@ body {
     overflow: auto;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
-   
+
     /* space for the jiggle animation so it is not cut off */
     padding-top: var(--paddingTopAndBottom);
     padding-bottom: var(--paddingTopAndBottom);
-    
+
     /* for the custom pointer drag */
     touch-action: none;
 }
@@ -180,6 +180,27 @@ screen the fade in is done via an animation */
     padding: var(--padding);
 }
 
+.delete-button {
+    --translateDistance: calc(var(--padding) / -2);
+    --xDistance: calc(var(--paddingTopAndBottom) + var(--translateDistance));
+
+    position: absolute;
+    transform: translate(var(--translateDistance), var(--xDistance));
+
+    background-color: var(--primaryColorLight);
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    max-width: calc(var(--fontSize)/1.5);
+    max-height: calc(var(--fontSize)/1.5);
+    cursor: pointer;
+
+    /* center child (play icon) vertically and horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .skeleton {
     opacity: var(--skeletonOpacity);
     animation: skeleton-loading 1s linear infinite alternate;
@@ -208,6 +229,7 @@ screen the fade in is done via an animation */
     height: 10rem;
     border-radius: var(--skeletonBorderRadius);
     margin: var(--padding);
+
     /* center child (play icon) vertically and horizontally */
     display: flex;
     justify-content: center;
@@ -248,7 +270,7 @@ screen the fade in is done via an animation */
 }
 
 .material-symbols-outlined.remove {
-    font-size: var(--fontSize);
+    font-size: calc(var(--fontSize)/2);
     color: var(--secondaryColor);
 }
 
