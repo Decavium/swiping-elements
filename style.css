@@ -70,7 +70,7 @@ body {
     opacity: var(--opacityAnimated);
 
     overflow: hidden;
-    cursor: pointer;
+    cursor: grab;
 }
 
 /* as the fade out is controlled by a function
@@ -243,6 +243,11 @@ screen the fade in is done via an animation */
 }
 
 .material-symbols-outlined.check-circle {
+    font-size: var(--fontSize);
+    color: var(--secondaryColor);
+}
+
+.material-symbols-outlined.remove {
     font-size: var(--fontSize);
     color: var(--secondaryColor);
 }
