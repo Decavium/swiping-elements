@@ -88,7 +88,7 @@ function handleSwipe(container, element) {
 }
 
 // use to determine min distance the element to be swiped to be completed
-function convertRemToPixels(rem) {    
+function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
@@ -122,6 +122,22 @@ function fadeInElement(element) {
 
         }
     );
+}
+
+function toggleElementFade(element) {
+
+    let animation = 'fadeOutButton 0.6s';
+    let opacity = 0;
+
+    element.classList.toggle("visible") && (animation = 'fadeInButton 0.6s', opacity = 1);
+    element.style.setProperty('animation', animation); 
+    element.addEventListener("animationend",
+    () => {
+        // set to 1 as it reverts to its original opactiy before the animation happened
+        element.style.opacity = opacity;
+
+    }
+);
 }
 
 // when the element is swiped right it is removed
@@ -166,8 +182,8 @@ function jiggleElement(container, element) {
     element.classList.remove("expanded");
     element.classList.toggle("jiggle");
 
-    // 
-    deleteButton.classList.toggle("visible");
+    // fade in/out the delete button
+    toggleElementFade(deleteButton);
 
     // awkward, but it works to prevent the container from expanding
     element.classList.add("jiggleFinished");

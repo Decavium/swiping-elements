@@ -131,8 +131,7 @@ screen the fade in is done via an animation */
     cursor: pointer;
 
     /* only visible when element is jiggling */
-    visibility: hidden;
-    animation: fadeOut 0.6s;
+    opacity: 0;
 
     /* center child (play icon) vertically and horizontally */
     display: flex;
@@ -140,9 +139,29 @@ screen the fade in is done via an animation */
     align-items: center;
 }
 
+@keyframes fadeOutButton {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Refer to the toggleElementFade function, it controls opacity and animation */
 .delete-button.visible {
-    visibility: visible;
-    animation: fadeIn 0.6s;
+    opacity: 0;
+}
+
+@keyframes fadeInButton {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes jiggle {
