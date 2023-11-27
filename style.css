@@ -41,6 +41,10 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.container.visible {
+    opacity: 0;
+}
+
 /* scroll snap takes care of restoring scroll position */
 .swipe-container {
     display: flex;
@@ -90,21 +94,6 @@ screen the fade in is done via an animation */
     }
 }
 
-/* when the task is completed it fades out */
-.swipe-element.completed {
-    animation: fadeOut 0.6s
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: var(--opacityAnimated);
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
 .swipe-element.jiggle {
     animation: jiggle 0.2s infinite;
     -webkit-animation: jiggle 0.2s infinite;
@@ -122,6 +111,9 @@ screen the fade in is done via an animation */
     position: absolute;
     transform: translate(var(--translateDistance), var(--xDistance));
 
+    /* it needs to be raised as it overlaps the swipe-element */
+    z-index: 1;
+
     background-color: var(--primaryColorLight);
     border-radius: 50%;
     height: 100%;
@@ -133,7 +125,7 @@ screen the fade in is done via an animation */
     /* only visible when element is jiggling */
     opacity: 0;
 
-    /* center child (play icon) vertically and horizontally */
+    /* center child (minus icon) vertically and horizontally */
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,11 +1,12 @@
+const rootContainer = document.querySelector('.container');
 const swipeContainer = document.querySelector('.swipe-container');
 const swipeElement = document.querySelector('.swipe-element');
 const deleteButton = document.querySelector('.delete-button');
 
-document.querySelectorAll(".swipe-container").forEach(() => { handlePointer(swipeContainer, swipeElement) });
+document.querySelectorAll(".swipe-container").forEach(() => { handlePointer(rootContainer, swipeContainer, swipeElement, deleteButton) });
 
 // initialises listeners and moves element on grab
-function handlePointer(container, element) {
+function handlePointer(root, container, element, deleteButton) {
 
     let isDrag = false;
 
@@ -29,6 +30,10 @@ function handlePointer(container, element) {
         }
     };
 
+    const isTaskCompleted = () => {
+        return root.classList.contains("visible");
+    }
+
     const resetElement = () => {
         element.style.cursor = "grab";
 
@@ -46,18 +51,20 @@ function handlePointer(container, element) {
     }
 
     // set up listeners
-    container.addEventListener("pointerup", () => { dragFalse(); resetElement(); });
+    container.addEventListener("pointerup", () => { dragFalse(); isTaskCompleted() && resetElement(); });
     container.addEventListener("pointermove", drag);
     container.addEventListener("pointerdown", () => { dragTrue(); grabElement(); });
 
-    element.addEventListener("pointerup", () => handleSwipe(container, element));
-    element.addEventListener("pointermove", () => { isDrag && handleElementOpacityOnSwipe(container, element) });
-    element.addEventListener("pointerleave", () => { dragFalse(); resetElement(); });
+    element.addEventListener("pointerup", () => handleSwipe(root, container, element));
+    element.addEventListener("pointermove", () => isDrag && handleElementOpacityOnSwipe(container, element));
+    element.addEventListener("pointerleave", () => { dragFalse(); isTaskCompleted() && resetElement(); });
     onLongPressOfElement(element, () => jiggleElement(container, element));
+
+    deleteButton.addEventListener("pointerdown", () => element.classList.contains("jiggle") && removeTask(rootContainer));
 };
 
 // determines if the element needs to be removed or expanded
-function handleSwipe(container, element) {
+function handleSwipe(root, container, element) {
 
     // don't interrupt the jiggle!!!
     if (element.classList.contains("jiggle")) {
@@ -65,7 +72,7 @@ function handleSwipe(container, element) {
     }
 
     // define the minimum distance to trigger the action
-    const minDistance = convertRemToPixels(5);
+    const minDistance = convertRemToPixels(4);
 
     // get the distance the user swiped
     const swipeDistance = container.scrollLeft - container.clientWidth;
@@ -73,7 +80,7 @@ function handleSwipe(container, element) {
     if (swipeDistance < minDistance * -1) {
 
         // remove the element when the user moves the element far enough
-        removeElement(container, element);
+        removeTask(root);
     } else if (swipeDistance < minDistance) {
 
         // make sure element doesn't expand after jiggling ends
@@ -124,30 +131,19 @@ function fadeInElement(element) {
     );
 }
 
+// fade in and out an element
 function toggleElementFade(element) {
 
     let animation = 'fadeOutButton 0.6s';
     let opacity = 0;
 
     element.classList.toggle("visible") && (animation = 'fadeInButton 0.6s', opacity = 1);
-    element.style.setProperty('animation', animation); 
-    element.addEventListener("animationend",
-    () => {
-        // set to 1 as it reverts to its original opactiy before the animation happened
-        element.style.opacity = opacity;
-
-    }
-);
-}
-
-// when the element is swiped right it is removed
-function removeElement(container, element) {
-
-    // class used to trigger animation
-    element.classList.add("completed");
+    element.style.setProperty('animation', animation);
     element.addEventListener("animationend",
         () => {
-            container.remove();
+            // set to 1 as it reverts to its original opactiy before the animation happened
+            element.style.opacity = opacity;
+
         }
     );
 }
@@ -187,5 +183,12 @@ function jiggleElement(container, element) {
 
     // awkward, but it works to prevent the container from expanding
     element.classList.add("jiggleFinished");
+}
+
+// removes the element from sight!
+function removeTask(container) {
+
+    // stand-in for the sake of the demo
+    toggleElementFade(container);
 }
 
