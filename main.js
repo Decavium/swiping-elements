@@ -5,6 +5,8 @@ const deleteButton = document.querySelector('.delete-button');
 
 document.querySelectorAll(".swipe-container").forEach(() => { handlePointer(rootContainer, swipeContainer, swipeElement, deleteButton) });
 
+disableDragging('.prevent-select');
+
 // initialises listeners and moves element on grab
 function handlePointer(root, container, element, deleteButton) {
 
@@ -31,7 +33,7 @@ function handlePointer(root, container, element, deleteButton) {
     };
 
     const isTaskCompleted = () => {
-        return root.classList.contains("visible");
+        return !root.classList.contains("hidden");
     }
 
     const resetElement = () => {
@@ -60,7 +62,7 @@ function handlePointer(root, container, element, deleteButton) {
     element.addEventListener("pointerleave", () => { dragFalse(); isTaskCompleted() && resetElement(); });
     onLongPressOfElement(element, () => jiggleElement(container, element));
 
-    deleteButton.addEventListener("pointerdown", () => element.classList.contains("jiggle") && removeTask(rootContainer));
+    deleteButton.addEventListener("pointerdown", () => element.classList.contains("jiggle") && removeTask(root));
 };
 
 // determines if the element needs to be removed or expanded
@@ -80,7 +82,7 @@ function handleSwipe(root, container, element) {
     if (swipeDistance < minDistance * -1) {
 
         // remove the element when the user moves the element far enough
-        removeTask(root);
+        removeTask(root, container);
     } else if (swipeDistance < minDistance) {
 
         // make sure element doesn't expand after jiggling ends
@@ -185,10 +187,45 @@ function jiggleElement(container, element) {
     element.classList.add("jiggleFinished");
 }
 
-// removes the element from sight!
-function removeTask(container) {
+// removes the task from sight!
+function removeTask(root, container = 0) {
 
-    // stand-in for the sake of the demo
-    toggleElementFade(container);
+    // "container" is an optional parameter
+    // it is passed when used in handleSwipe() 
+    // to animate the container scrolling off screen
+    container && container.scrollTo({
+        left: 0,
+        behavior: 'smooth'
+    });
+
+    root.classList.add("hidden");
+    root.style.setProperty('animation', 'fadeOutButton 0.6s');
+    root.addEventListener("animationend",
+        () => {
+            // set to 1 as it reverts to its original opactiy before the animation happened
+            root.style.opacity = 0;
+
+        }
+    );
+
 }
+
+// TODO
+function resetTask() {
+
+}
+
+// should help prevent icons from being dragged
+function disableDragging(className) {
+	var draggables = document.querySelector(className);
+	for(var i = 0 ; i < draggables.length ; i++) {
+		draggables[i].classList.add('no-drag');
+		draggables[i].setAttribute('no-drag', 'on');
+		draggables[i].setAttribute('draggable', 'false');
+		draggables[i].addEventListener('dragstart', function( event ) {
+			event.preventDefault();
+		}, false);	
+	}
+}
+
 

@@ -41,8 +41,9 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.container.visible {
-    opacity: 0;
+.container.hidden {
+    pointer-events: none;
+    cursor: pointer;
 }
 
 /* scroll snap takes care of restoring scroll position */
