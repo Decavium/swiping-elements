@@ -5,6 +5,15 @@ const deleteButton = document.querySelector('.delete-button');
 
 document.querySelectorAll(".swipe-container").forEach(() => { handlePointer(rootContainer, swipeContainer, swipeElement, deleteButton) });
 
+// The mutation observer
+var ob = new MutationObserver(() => {
+    resetTask(root, container, element);
+ });
+ ob.observe(rootContainer, {
+   attributes: true,
+   attributeFilter: ["class"]
+ });
+
 disableDragging('.prevent-select');
 
 // initialises listeners and moves element on grab
@@ -39,7 +48,7 @@ function handlePointer(root, container, element, deleteButton) {
     const resetElement = () => {
         element.style.cursor = "grab";
 
-        // center the element
+        // centre the element
         container.scrollTo({
             left: container.clientWidth,
             behavior: 'smooth'
@@ -164,7 +173,7 @@ function onLongPressOfElement(element, callback) {
         }, 1000);
     });
 
-    function cancel() {
+    const cancel = () => {
         clearTimeout(timer);
     }
 
@@ -183,7 +192,10 @@ function jiggleElement(container, element) {
     // fade in/out the delete button
     toggleElementFade(deleteButton);
 
-    // awkward, but it works to prevent the container from expanding
+    // awkward, but it works to prevent the container from expanding;
+    // eventListener will activate though pointerUp after user stops 
+    // holding the the element to toggle the jiggle
+    // and this expands the element, which is not intended
     element.classList.add("jiggleFinished");
 }
 
@@ -202,7 +214,7 @@ function removeTask(root, container = 0) {
     root.style.setProperty('animation', 'fadeOutButton 0.6s');
     root.addEventListener("animationend",
         () => {
-            // set to 1 as it reverts to its original opactiy before the animation happened
+            // set to 0 as it reverts to its original opactiy before the animation happened
             root.style.opacity = 0;
 
         }
@@ -211,8 +223,33 @@ function removeTask(root, container = 0) {
 }
 
 // TODO
-function resetTask() {
+function resetTask(root, container, element) {
 
+    // set up timer to wait 2 seconds
+    setTimeout(reset, 2000);
+
+    // reset element
+    const reset = () => {
+
+        // centre element
+        container.scrollTo({
+            left: container.clientWidth,
+        });
+
+        // remove jiggle
+        jiggleElement(container, element);
+
+        // fade element back in
+        root.classList.remove("hidden");
+        root.style.setProperty('animation', 'fadeInButton 0.6s');
+        root.addEventListener("animationend",
+            () => {
+                // set to 1 as it reverts to its original opactiy before the animation happened
+                root.style.opacity = 1;
+    
+            }
+        );
+    }
 }
 
 // should help prevent icons from being dragged
