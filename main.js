@@ -5,16 +5,16 @@ const deleteButton = document.querySelector('.delete-button');
 
 document.querySelectorAll(".swipe-container").forEach(() => { handlePointer(rootContainer, swipeContainer, swipeElement, deleteButton) });
 
-// The mutation observer
+// a mutation observer is set up for the demo
+// it listens for class changes on the root and
+// resets the project so users can try other features
 var ob = new MutationObserver(() => {
-    resetTask(root, container, element);
- });
- ob.observe(rootContainer, {
-   attributes: true,
-   attributeFilter: ["class"]
- });
-
-disableDragging('.prevent-select');
+    rootContainer.classList.contains("hidden") && resetTask(rootContainer, swipeContainer, swipeElement, deleteButton);
+});
+ob.observe(rootContainer, {
+    attributes: true,
+    attributeFilter: ["class"]
+});
 
 // initialises listeners and moves element on grab
 function handlePointer(root, container, element, deleteButton) {
@@ -72,6 +72,8 @@ function handlePointer(root, container, element, deleteButton) {
     onLongPressOfElement(element, () => jiggleElement(container, element));
 
     deleteButton.addEventListener("pointerdown", () => element.classList.contains("jiggle") && removeTask(root));
+
+    disableDragging('.prevent-select');
 };
 
 // determines if the element needs to be removed or expanded
@@ -199,7 +201,7 @@ function jiggleElement(container, element) {
     element.classList.add("jiggleFinished");
 }
 
-// removes the task from sight!
+// removes the task from sight to emulate its completion
 function removeTask(root, container = 0) {
 
     // "container" is an optional parameter
@@ -222,11 +224,8 @@ function removeTask(root, container = 0) {
 
 }
 
-// TODO
-function resetTask(root, container, element) {
-
-    // set up timer to wait 2 seconds
-    setTimeout(reset, 2000);
+// for the sake of this demo the task resets after 2 seconds of being hidden
+function resetTask(root, container, element, deleteButton) {
 
     // reset element
     const reset = () => {
@@ -235,34 +234,56 @@ function resetTask(root, container, element) {
         container.scrollTo({
             left: container.clientWidth,
         });
+        element.style.cursor = "grab";
+
+        // reset element opacity
+        document.documentElement.style.setProperty('--opacityAnimated', 1);
 
         // remove jiggle
-        jiggleElement(container, element);
+        element.classList.remove("jiggle");
+        element.classList.remove("jiggleFinished");
 
-        // fade element back in
-        root.classList.remove("hidden");
-        root.style.setProperty('animation', 'fadeInButton 0.6s');
-        root.addEventListener("animationend",
+        // collapse
+        element.classList.remove("expanded");
+
+        // reset the delete button 
+        deleteButton.classList.remove("visible");
+        deleteButton.style.setProperty('animation', 'fadeOutButton 0.1s');
+        deleteButton.addEventListener("animationend",
             () => {
-                // set to 1 as it reverts to its original opactiy before the animation happened
-                root.style.opacity = 1;
-    
+                deleteButton.style.opacity = 0;
             }
         );
+
+        // fade element back in
+        setTimeout(() => {
+            root.classList.remove("hidden");
+            root.style.setProperty('animation', 'fadeInButton 0.6s');
+            root.addEventListener("animationend",
+                () => {
+                    // set to 1 as it reverts to its original opactiy before the animation happened
+                    root.style.opacity = 1;
+
+                }
+            );
+        }, 1000);
     }
+
+    // set up timer to wait a total of 2.5 seconds
+    setTimeout(reset, 1500);
 }
 
 // should help prevent icons from being dragged
 function disableDragging(className) {
-	var draggables = document.querySelector(className);
-	for(var i = 0 ; i < draggables.length ; i++) {
-		draggables[i].classList.add('no-drag');
-		draggables[i].setAttribute('no-drag', 'on');
-		draggables[i].setAttribute('draggable', 'false');
-		draggables[i].addEventListener('dragstart', function( event ) {
-			event.preventDefault();
-		}, false);	
-	}
+    var draggables = document.querySelector(className);
+    for (var i = 0; i < draggables.length; i++) {
+        draggables[i].classList.add('no-drag');
+        draggables[i].setAttribute('no-drag', 'on');
+        draggables[i].setAttribute('draggable', 'false');
+        draggables[i].addEventListener('dragstart', function (event) {
+            event.preventDefault();
+        }, false);
+    }
 }
 
 

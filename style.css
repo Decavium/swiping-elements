@@ -121,7 +121,7 @@ screen the fade in is done via an animation */
     width: 100%;
     max-width: calc(var(--fontSize)/1.5);
     max-height: calc(var(--fontSize)/1.5);
-    cursor: pointer;
+    cursor: default;
 
     /* only visible when element is jiggling */
     opacity: 0;
@@ -145,6 +145,7 @@ screen the fade in is done via an animation */
 /* Refer to the toggleElementFade function, it controls opacity and animation */
 .delete-button.visible {
     opacity: 0;
+    cursor: pointer;
 }
 
 @keyframes fadeInButton {
